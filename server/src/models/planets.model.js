@@ -18,7 +18,7 @@ function loadPlanetsData() {
   // .on('example') === Event Loop logic
   return new Promise((resolve, reject) => {
     fs.createReadStream(
-      path.join(__dirname, "..", "..", "data", "kepler_data.csv")
+      path.join(__dirname, "..", "..", "data", "Kepler_data.csv")
     ) // Being read in as a stream
       .pipe(
         parse({
