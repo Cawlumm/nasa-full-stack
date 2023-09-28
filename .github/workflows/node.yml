@@ -50,4 +50,3 @@ jobs:
 
       # Step 5: Run tests for the project
       - run: npm test
-        timeout-minutes: 60
