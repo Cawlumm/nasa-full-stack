@@ -1,23 +1,52 @@
+# Define the name of the GitHub Actions workflow
 name: NASA Project CI
+
+# Trigger the workflow when there is a push event to the 'main' branch
+# or when there is a pull request targeting the 'main' branch
 on:
   push:
     branches: [main]
   pull_request:
     branches: [main]
+
+# Define the jobs to be executed as part of this workflow
 jobs:
+  # Define a job named 'build'
   build:
+    # Set environment variables for the job
     env:
       CI: true
+      MONGO_URL: mongodb://localhost/nasa
+
+    # Define the strategy for this job, which includes a matrix of Node.js versions
     strategy:
       matrix:
         node-version: [14.x, 16.x]
+        mongodb-version: ["4.4"]
+
+    # Specify the runner for this job (Ubuntu latest)
     runs-on: ubuntu-latest
+
+    # Define the steps to be executed as part of this job
     steps:
+      # Step 1: Checkout the code repository
       - uses: actions/checkout@v2
+
+      # Step 2: Set up Node.js with the specified version
       - name: Use Node.js version ${{ matrix.node-version }}
         uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.node-version }}
+      - name: Use MongoDB v${{ matrix.mongodb-version }} from GitHub actions
+        uses: supercharge/mongodb-github-action@v1.10.0
+        with:
+          mongodb-version: ${{ matrix.mongodb-version }}
+
+      # Step 3: Install project dependencies using npm
       - run: npm install
+
+      # Step 4: Build the client side
       - run: npm run build --prefix client
+
+      # Step 5: Run tests for the project
       - run: npm test
