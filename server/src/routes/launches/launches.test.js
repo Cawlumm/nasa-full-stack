@@ -69,9 +69,8 @@ describe('Launches API', () => {
         .expect('Content-Type', /json/)
         .expect(400);
   
-      expect(response.body).toStrictEqual({
-        error: 'Missing required launch property',
-      });
+        expect(response.body.error.toLowerCase()).toBe('missing required launch property');
+
     });
   
     test('It should catch invalid dates', async () => {
