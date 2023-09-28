@@ -8,7 +8,7 @@ describe('Launches API', () => {
   beforeAll(async () => {
     await mongoConnect();
     await loadPlanetsData();
-  }, 15000);
+  }, 40000);
 
   afterAll(async () => {
     await mongoDisconnect();
